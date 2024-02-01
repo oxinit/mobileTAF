@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <properties>
+        <property name="pattern">
+            %d{yyyy-MM-dd HH:mm:ss} [%t] %p - %-65m [%C{-3}.%M (%F:%L)%n
+        </property>
+    </properties>
+    <Appenders>
+        <File name="fout" fileName="target/logs/appTest.log">
+            <PatternLayout pattern ="${pattern}"/>
+            </File>
+            <Console name="console">
+                <PatternLayout pattern ="${pattern}"/>
+            </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="fout"/>
+        </Root>
+    </Loggers>
+</Configuration>

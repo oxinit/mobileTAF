@@ -1,33 +1,30 @@
 package driver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import io.appium.java_client.remote.MobileCapabilityType;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
+
+import io.appium.java_client.android.options.UiAutomator2Options;
+import java.io.File;
+import util.ConfigurationReader;
 
 public class CapabilitiesFactory {
-  private static final String PLATFORM_NAME_CAPABILITY = "Android";
-  private static final String DEVICE_NAME_CAPABILITY = "Pixel_2_API_34";
-  private static final String AUTOMATION_NAME_CAPABILITY ="UiAutomator2";
-  //private static final String APP_ACTIVITY_CAPABILITY = "com.epam.connect.android.apps.nexuslauncher";
-  private static final String COMMAND_TIME_OUT_CAPABILITY = "60";
-
-  public static DesiredCapabilities getCapabilities() {
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, PLATFORM_NAME_CAPABILITY);
-    capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AUTOMATION_NAME_CAPABILITY);
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME_CAPABILITY);
-    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, COMMAND_TIME_OUT_CAPABILITY);
-    //capabilities.setCapability("appActivity", APP_ACTIVITY_CAPABILITY);
-    return capabilities;
+  public static UiAutomator2Options getCapabilities(String environment) {
+    switch (environment) {
+      case "local":
+        return getLocalCapabilities();
+      default:
+        throw new IllegalArgumentException("Unknown environment value!");
+    }
   }
 
-  public static URL getAppiumServerUrl() {
-    try{
-      return new URL ("http://localhost:4723");
-    }catch (MalformedURLException e){
-      e.printStackTrace();
-    }
-    return null;
+  private static UiAutomator2Options getLocalCapabilities() {
+    UiAutomator2Options uiAutomator2Options = new UiAutomator2Options();
+    uiAutomator2Options.setCapability(PLATFORM_NAME, "Android");
+    uiAutomator2Options.setAutomationName(ConfigurationReader.getProperty("automation.name"));
+    uiAutomator2Options.setCapability("udid", ConfigurationReader.getProperty("udid"));
+    uiAutomator2Options.setCapability("appPackage", ConfigurationReader.getProperty("app.package"));
+    uiAutomator2Options.setCapability("appActivity", ConfigurationReader.getProperty("app.activity"));
+    uiAutomator2Options.setCapability("deviceName", ConfigurationReader.getProperty("device.name"));
+    uiAutomator2Options.setCapability("app", new File(ConfigurationReader.getProperty("app.path")).getAbsolutePath());
+    return uiAutomator2Options;
   }
 }
