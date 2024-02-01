@@ -16,7 +16,7 @@ public class EmulatorControl {
 
   public static void startEmulator() {
     try {
-      Runtime.getRuntime().exec("emulator -avd Pixel_2_API_34 -delay-adb -no-boot-anim ");
+      Runtime.getRuntime().exec("emulator -avd Pixel_2_API_34  -no-boot-anim ");
       logger.info("Emulator started");
       Runtime.getRuntime().exec("adb wait-for-device");
       logger.info("Run wait command");
@@ -27,14 +27,16 @@ public class EmulatorControl {
   }
 
   public static void closeEmulator() {
-    try {
-      Runtime.getRuntime().exec(format("adb -s %s emu kill",
-          ConfigurationReader.getProperty("udid")));
-      logger.info("Emulator closed");
-      isEmulatorStarted = false;
-    } catch (IOException e) {
-      logger.error("Error while closing emulator: " + e.getMessage());
+    if (isEmulatorStarted == true) {
+      try {
+        Runtime.getRuntime().exec(format("adb -s %s emu kill",
+            ConfigurationReader.getProperty("udid")));
+        logger.info("Emulator closed");
+        isEmulatorStarted = false;
+      } catch (IOException e) {
+        logger.error("Error while closing emulator: " + e.getMessage());
+      }
+      logger.info("Emulator already closed");
     }
   }
-  //lack auto start emulator
 }
