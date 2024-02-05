@@ -1,10 +1,7 @@
-package driver;
-
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
+package util;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
 import java.io.File;
-import util.ConfigurationReader;
 
 public class CapabilitiesFactory {
   public static UiAutomator2Options getCapabilities(String environment) {
@@ -18,7 +15,7 @@ public class CapabilitiesFactory {
 
   private static UiAutomator2Options getLocalCapabilities() {
     UiAutomator2Options uiAutomator2Options = new UiAutomator2Options();
-    uiAutomator2Options.setCapability(PLATFORM_NAME, "Android");
+    uiAutomator2Options.setCapability("platformName", "Android");
     uiAutomator2Options.setAutomationName(ConfigurationReader.getProperty("automation.name"));
     uiAutomator2Options.setCapability("udid", ConfigurationReader.getProperty("udid"));
     uiAutomator2Options.setCapability("appPackage", ConfigurationReader.getProperty("app.package"));

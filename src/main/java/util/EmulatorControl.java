@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 public class EmulatorControl {
   private static final Logger logger = LogManager.getRootLogger();
+  private static final String deviceName=  ConfigurationReader.getProperty("device.name");
   private static boolean isEmulatorStarted = false;
 
   public static boolean IsEmulatorStarted() {
@@ -16,10 +17,14 @@ public class EmulatorControl {
 
   public static void startEmulator() {
     try {
-      Runtime.getRuntime().exec("emulator -avd Pixel_2_API_34  -no-boot-anim ");
+      Runtime.getRuntime().exec("emulator -avd "+deviceName+" -no-boot-anim ");
       logger.info("Emulator started");
-      Runtime.getRuntime().exec("adb wait-for-device");
-      logger.info("Run wait command");
+      try {
+        Thread.sleep(32000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+        logger.info("Emulator booted");
       isEmulatorStarted = true;
     } catch (IOException e) {
       logger.error("Error while starting emulator: " + e.getMessage());
@@ -36,7 +41,6 @@ public class EmulatorControl {
       } catch (IOException e) {
         logger.error("Error while closing emulator: " + e.getMessage());
       }
-      logger.info("Emulator already closed");
-    }
+    }else logger.info("Emulator already closed");
   }
 }

@@ -9,7 +9,7 @@ public class TestLogin extends BaseTest {
   public void loginMethodsTest() {
     login.loginTest();
     Assert.assertEquals(login.returnDescriptionOfLoginMethods(),
-        "Continue with EPAM Continue with LinkedIn Continue with Apple Show more"
+        "Continue with EPAMd Continue with LinkedIn Continue with Apple Show more"
         , "Login methods are not as expected");
   }
 }

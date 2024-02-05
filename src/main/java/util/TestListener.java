@@ -44,7 +44,7 @@ public class TestListener implements ITestListener {
     File screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
     try {
       FileUtils.copyFile(screenshot,
-          new File(format("target/screenshots/" + ".png", LocalDate.now())));
+          new File("target/screenshots/" + LocalDate.now()+".png"));
 
     } catch (IOException e) {
       logger.error("Failed to save screenshot: " + e.getLocalizedMessage());
