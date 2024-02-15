@@ -18,7 +18,6 @@ public class EmulatorControl {
   }
 
   public static void startEmulator() {
-    //check avd and capabilities names emulator -list-avds212454555
     Runtime rt = Runtime.getRuntime();
     Process proc = null;
     String s = null;
