@@ -26,16 +26,18 @@ public class Driver {
 
   public static AndroidDriver getDriver() {
     if (driver == null) {
+      logger.info("Creating driver with env: " + env);
       switch (env) {
         case "local":
           return driver = new AndroidDriver(AppiumDriverServiceInitialization.getAppiumDriverLocalService(),
               CapabilitiesFactory.getCapabilities(env));
         case "remote":
           try {
+            String url = format("https://%s:%s@%s/wd/hub", PROJECT_NAME, ACCESS_KEY, APPIUM_HUB);
             return driver = new AndroidDriver(
-                new URL(format("https://%s:%s@%s/wd/hub", PROJECT_NAME, APPIUM_HUB, ACCESS_KEY)//fixme
-                ),
+                new URL(url),
                 CapabilitiesFactory.getCapabilities(env));
+
           } catch (MalformedURLException e) {
             throw new RuntimeException(e);
           }
@@ -43,7 +45,6 @@ public class Driver {
           throw new IllegalArgumentException("Unknown environment value!");
       }
     }
-    logger.info("Driver initialized with env: " + env);
     return driver;
   }
 
