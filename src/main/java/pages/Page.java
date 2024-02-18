@@ -21,6 +21,9 @@ public class Page extends BasePO {
   @FindBy(xpath = "//android.view.View[@content-desc='Show more']")
   private WebElement showMoreOptionsLoginButton;
 
+  public Page() {
+  }
+
   public Page clickSkipIntroduction() {
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(60));
     wait.until(ExpectedConditions.visibilityOf(skipIntroduction));

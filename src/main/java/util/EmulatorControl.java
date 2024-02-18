@@ -29,7 +29,6 @@ public class EmulatorControl {
     }
     BufferedReader stdInput = new BufferedReader(new
         InputStreamReader(proc.getInputStream()));
-    System.out.println("Here is output of the command:\n");
     try {
       if ((s = stdInput.readLine()) != null && s.equals(deviceName)) {
         try {

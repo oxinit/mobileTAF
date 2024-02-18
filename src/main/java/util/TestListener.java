@@ -1,7 +1,5 @@
 package util;
 
-import static java.lang.String.format;
-
 import driver.Driver;
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +42,7 @@ public class TestListener implements ITestListener {
     File screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
     try {
       FileUtils.copyFile(screenshot,
-          new File("target/screenshots/" + LocalDate.now()+".png"));
+          new File("target/screenshots/" + LocalDate.now() + ".png"));
 
     } catch (IOException e) {
       logger.error("Failed to save screenshot: " + e.getLocalizedMessage());

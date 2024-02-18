@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConfigurationReader {
-
+  private static final String env = System.getProperty("env.name");
   private static final Logger logger = LogManager.getRootLogger();
   private static final Properties properties = new Properties();
   private static ConfigurationReader instance;
@@ -15,11 +15,11 @@ public class ConfigurationReader {
   public ConfigurationReader() {
   }
 
-  private static ConfigurationReader getProperties() {
+  private static ConfigurationReader getProperties(String propertiesFileName) {
     if (instance == null) {
       instance = new ConfigurationReader();
       try {
-        properties.load(new FileInputStream("src/main/resources/test.properties"));
+        properties.load(new FileInputStream("src/main/resources/" + propertiesFileName + ".properties"));
       } catch (IOException e) {
         logger.error("Error while reading configuration properties file: " + e.getMessage());
       }
@@ -28,7 +28,15 @@ public class ConfigurationReader {
   }
 
   public static String getProperty(String propertyName) {
-    getProperties();
-    return properties.getProperty(propertyName);
+    switch (env) {
+      case "local":
+        getProperties("test");
+        return properties.getProperty(propertyName);
+      case "remote":
+        getProperties("mobitru");
+        return properties.getProperty(propertyName);
+      default:
+        throw new IllegalArgumentException("Unknown environment value!");
+    }
   }
 }
