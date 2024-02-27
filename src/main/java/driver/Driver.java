@@ -12,13 +12,18 @@ import util.CapabilitiesFactory;
 public class Driver {
   /**
    * env - environment variable, which is used to define where to run tests
-   * it can be "local" or "remote"
+   * it can be "local" , "remote", "browserstack"
+   * <p>
+   * ACCESS_KEY - token env var , differ for each environment
+   * USER_NAME - username environment variable, used and given by browserstack
    */
   private static final String env = System.getProperty("env.name");
   private static final Logger logger = LogManager.getRootLogger();
   private static final String ACCESS_KEY = System.getProperty("token");
   private static final String PROJECT_NAME = "personal";
   private static final String APPIUM_HUB = "app.mobitru.com";
+  private static final Object USER_NAME = System.getProperty("username");
+  private static final String BROWSER_STACK = "hub-cloud.browserstack.com";
   private static AndroidDriver driver;
 
   private Driver() {
@@ -37,7 +42,15 @@ public class Driver {
             return driver = new AndroidDriver(
                 new URL(url),
                 CapabilitiesFactory.getCapabilities(env));
-
+          } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+          }
+        case "browserstack":
+          try {
+            String url = format("https://%s:%s@%s/wd/hub", USER_NAME, ACCESS_KEY, BROWSER_STACK);
+            return driver = new AndroidDriver(
+                new URL(url),
+                CapabilitiesFactory.getCapabilities(env));
           } catch (MalformedURLException e) {
             throw new RuntimeException(e);
           }
@@ -49,8 +62,11 @@ public class Driver {
   }
 
   public static void closeAppium() {
-    AppiumDriverServiceInitialization.stopService();
-    logger.info("Appium service stopped");
+    if (AppiumDriverServiceInitialization.getAppiumDriverLocalService() != null ||
+        System.getProperty("env.name").equals("local")) {
+      AppiumDriverServiceInitialization.stopService();
+      logger.info("Appium service stopped");
+    }
   }
 
   public static void quitDriver() {

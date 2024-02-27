@@ -35,6 +35,9 @@ public class ConfigurationReader {
       case "remote":
         getProperties("mobitru");
         return properties.getProperty(propertyName);
+      case "browserstack":
+        getProperties("browserstack");
+        return properties.getProperty(propertyName);
       default:
         throw new IllegalArgumentException("Unknown environment value!");
     }
