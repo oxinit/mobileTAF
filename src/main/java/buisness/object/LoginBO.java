@@ -1,21 +1,21 @@
 package buisness.object;
 
-import pages.Page;
+import pages.LoginPage;
 
 public class LoginBO {
-  private final Page page;
+  private final LoginPage loginPage;
 
   public LoginBO() {
-    this.page = new Page();
+    this.loginPage = new LoginPage();
   }
 
   public LoginBO loginTest() {
-    page.clickSkipIntroduction();
-    page.clickLogInButton();
+    loginPage.clickSkipIntroduction();
+    loginPage.clickLogInButton();
     return this;
   }
 
   public String returnDescriptionOfLoginMethods() {
-    return page.returnDescriptionOfLoginMethods();
+    return loginPage.returnDescriptionOfLoginMethods();
   }
 }

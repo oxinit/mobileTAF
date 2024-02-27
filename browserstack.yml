@@ -1,0 +1,25 @@
+userName: ostapfedotov_XfRn40
+accessKey: xfjzphXRoxL1eXzjNpyG
+framework: testng
+app: bs://af8438410010f513de641e02ec9d59b4c1275f1f
+platforms:
+  - platformName: android
+    deviceName: Samsung Galaxy S22 Ultra
+    platformVersion: 12.0
+  - platformName: android
+    deviceName: Google Pixel 7 Pro
+    platformVersion: 13.0
+  - platformName: android
+    deviceName: OnePlus 9
+    platformVersion: 11.0
+parallelsPerPlatform: 1
+browserstackLocal: false
+buildName: browserstack-build-1
+projectName: BrowserStack Sample
+
+# Test Observability is an intelligent test reporting & debugging product. set BROWSERSTACK_AUTOMATION=false&& <your-mvn-test-command>
+#It collects data using the SDK. Read more about what data is collected at https://www.browserstack.com/docs/test-observability/references/terms-and-conditions
+# Visit observability.browserstack.com to see your test reports and insights. To disable test observability, specify `testObservability: false` in the key below.
+testObservability: true
+
+source: testng:appium-intellij:v1.1.4

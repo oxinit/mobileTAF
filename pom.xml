@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
@@ -9,12 +6,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <suite>smoke</suite>
         <java.version>16</java.version>
         <source.encoding>UTF-8</source.encoding>
+        <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
@@ -56,6 +54,12 @@
             <artifactId>commons-io</artifactId>
             <version>2.15.1</version>
         </dependency>
+        <dependency>
+      <groupId>com.browserstack</groupId>
+      <artifactId>browserstack-java-sdk</artifactId>
+      <version>LATEST</version>
+      <scope>compile</scope>
+    </dependency>
     </dependencies>
 
     <build>
@@ -79,9 +83,21 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/${suite}.xml</suiteXmlFile>
-                    </suiteXmlFiles>
+                    </suiteXmlFiles><argLine>-javaagent:"${com.browserstack:browserstack-java-sdk:jar}"</argLine>
                 </configuration>
             </plugin>
+            <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>getClasspathFilenames</id>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
         </plugins>
     </build>
 </project>

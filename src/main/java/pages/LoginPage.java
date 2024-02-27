@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Page extends BasePO {
+public class LoginPage extends BasePO {
   @FindBy(xpath = "//android.widget.TextView[@text='Skip']")
   private WebElement skipIntroduction;
   @FindBy(xpath = "//android.view.ViewGroup[@content-desc='Log In']/android.view.ViewGroup")
@@ -21,17 +21,17 @@ public class Page extends BasePO {
   @FindBy(xpath = "//android.view.View[@content-desc='Show more']")
   private WebElement showMoreOptionsLoginButton;
 
-  public Page() {
+  public LoginPage() {
   }
 
-  public Page clickSkipIntroduction() {
+  public LoginPage clickSkipIntroduction() {
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(60));
     wait.until(ExpectedConditions.visibilityOf(skipIntroduction));
     skipIntroduction.click();
     return this;
   }
 
-  public Page clickLogInButton() {
+  public LoginPage clickLogInButton() {
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(60));
     wait.until(ExpectedConditions.visibilityOf(logInButton));
     logInButton.click();

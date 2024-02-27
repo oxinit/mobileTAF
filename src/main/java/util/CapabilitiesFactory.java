@@ -34,6 +34,7 @@ public class CapabilitiesFactory {
     uiAutomator2Options.setCapability("udid", ConfigurationReader.getProperty("udid"));
     uiAutomator2Options.setCapability("appPackage", ConfigurationReader.getProperty("app.package"));
     uiAutomator2Options.setCapability("appActivity", ConfigurationReader.getProperty("app.activity"));
+    uiAutomator2Options.setCapability("app", new File(ConfigurationReader.getProperty("app.path")).getAbsolutePath());
     return uiAutomator2Options;
   }
 }
