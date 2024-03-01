@@ -29,17 +29,23 @@ public class ConfigurationReader {
 
   public static String getProperty(String propertyName) {
     switch (env) {
-      case "local":
+      case "local" -> {
         getProperties("test");
         return properties.getProperty(propertyName);
-      case "remote":
+      }
+      case "remote" -> {
         getProperties("mobitru");
         return properties.getProperty(propertyName);
-      case "browserstack":
+      }
+      case "browserstack" -> {
         getProperties("browserstack");
         return properties.getProperty(propertyName);
-      default:
-        throw new IllegalArgumentException("Unknown environment value!");
+      }
+      case "saucelabs" -> {
+        getProperties("saucelabs");
+        return properties.getProperty(propertyName);
+      }
+      default -> throw new IllegalArgumentException("Unknown environment value!");
     }
   }
 }

@@ -2,18 +2,24 @@ package util;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
 import java.io.File;
+import org.openqa.selenium.MutableCapabilities;
 
 public class CapabilitiesFactory {
   public static UiAutomator2Options getCapabilities(String environment) {
     switch (environment) {
-      case "local":
+      case "local" -> {
         return getLocalCapabilities();
-      case "remote":
+      }
+      case "mobitru" -> {
         return getRemoteCapabilities();
-      case "browserstack":
+      }
+      case "browserstack" -> {
         return getBrowserStackCapabilities();
-      default:
-        throw new IllegalArgumentException("Unknown environment value!");
+      }
+      case "saucelabs" -> {
+        return getSauceLabsCapabilities();
+      }
+      default -> throw new IllegalArgumentException("Unknown environment value!");
     }
   }
 
@@ -51,6 +57,23 @@ public class CapabilitiesFactory {
     uiAutomator2Options.setCapability("sessionName", ConfigurationReader.getProperty("session.name"));
     uiAutomator2Options.setCapability("projectName", ConfigurationReader.getProperty("project.name"));
     uiAutomator2Options.setCapability("local", false);
+    return uiAutomator2Options;
+  }
+
+  private static UiAutomator2Options getSauceLabsCapabilities() {
+    UiAutomator2Options uiAutomator2Options = new UiAutomator2Options();
+    uiAutomator2Options.setCapability("platformName", ConfigurationReader.getProperty("platform.name"));
+    uiAutomator2Options.setCapability("appium:app", ConfigurationReader.getProperty("app"));
+    uiAutomator2Options.setCapability("appium:deviceName", ConfigurationReader.getProperty("device.name"));
+    uiAutomator2Options.setCapability("appium:platformVersion", ConfigurationReader.getProperty("platform.version"));
+    uiAutomator2Options.setCapability("appium:automationName", "UiAutomator2");
+    MutableCapabilities sauceOptions = new MutableCapabilities();
+    sauceOptions.setCapability("username", System.getProperty("username"));
+    sauceOptions.setCapability("accessKey", System.getProperty("token"));
+    sauceOptions.setCapability("build", ConfigurationReader.getProperty("build"));
+    sauceOptions.setCapability("name", ConfigurationReader.getProperty("project.name"));
+    sauceOptions.setCapability("deviceOrientation", ConfigurationReader.getProperty("device.orientation"));
+    uiAutomator2Options.setCapability("sauce:options", sauceOptions);
     return uiAutomator2Options;
   }
 }
